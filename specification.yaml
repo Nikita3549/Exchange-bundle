@@ -1,0 +1,75 @@
+openapi: 3.0.0
+info:
+  title: Currency Pairs API
+  version: 1.0.0
+paths:
+  /v1/pairs/create:
+    post:
+      summary: Create a currency pair
+      description: Creates a new currency pair after validating the currencies and exchange.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - firstCurrency
+                - secondCurrency
+                - exchange
+              properties:
+                firstCurrency:
+                  type: string
+                  description: The first currency in the pair.
+                secondCurrency:
+                  type: string
+                  description: The second currency in the pair.
+                exchange:
+                  type: string
+                  enum: [Binance, ByBit]
+                  description: The exchange where the pair exists.
+      responses:
+        201:
+          description: Currency pair successfully created.
+        400:
+          description: Bad request (invalid input or currency not found on exchange).
+
+  /v1/pairs:
+    get:
+      summary: Get all currency pairs
+      description: Retrieves all currency pairs from the database.
+      responses:
+        200:
+          description: A list of currency pairs.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: Unique identifier for the pair.
+                    firstCurrency:
+                      type: string
+                    secondCurrency:
+                      type: string
+                    exchange:
+                      type: string
+
+  /v1/pairs/{id}:
+    delete:
+      summary: Delete a currency pair
+      description: Deletes a currency pair by its ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Currency pair successfully deleted.
+        404:
+          description: Currency pair not found.
