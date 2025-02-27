@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Pair {
+  uuid           String   @id @default(uuid())
+  firstCurrency  String   @map("first_currency")
+  secondCurrency String   @map("second_currency")
+  exchange       Exchange
+
+  @@map("pairs")
+}
+
+enum Exchange {
+  Binance
+  ByBit
+
+  @@map("exchange")
+}
