@@ -1,0 +1,38 @@
+services:
+  api:
+    container_name: api
+    profiles:
+      - api
+    build:
+      context: .
+    restart: always
+    ports:
+      - 3000:${PORT}
+    volumes:
+      - ./.env:/opt/api/.env
+      - ./avatars:/opt/api/avatars
+    networks:
+      - mainNetwork
+    depends_on:
+      - db
+    command: sh -c "cd /opt/api/ && npx prisma db push && npm run start:prod"
+  db:
+    image: postgres
+    container_name: database
+    networks:
+      - mainNetwork
+    environment:
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_DB: ${DATABASE_DBNAME}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - ${DATABASE_PORT}:5432
+
+networks:
+  mainNetwork:
+    driver: bridge
+
+volumes:
+  db_data:

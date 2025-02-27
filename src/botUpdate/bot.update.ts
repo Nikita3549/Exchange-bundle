@@ -26,7 +26,7 @@ export class BotUpdate {
 	) {
 		const message = `DOWN ${new Date().toLocaleString('ru-RU', {
 			hour12: false,
-		})} Пара: ${firstCurrency}/${secondCurrency} разница составляет ${different}%`;
+		})} Пара: ${firstCurrency}/${secondCurrency} разница составляет ${different.toFixed(3)}%`;
 
 		await this.sendMessage(message);
 	}
@@ -37,7 +37,7 @@ export class BotUpdate {
 	) {
 		const message = `UP ${new Date().toLocaleString('ru-RU', {
 			hour12: false,
-		})} Пара: ${firstCurrency}/${secondCurrency} разница составляет ${different}%`;
+		})} Пара: ${firstCurrency}/${secondCurrency} разница составляет ${different.toFixed(3)}%`;
 
 		await this.sendMessage(message);
 	}
